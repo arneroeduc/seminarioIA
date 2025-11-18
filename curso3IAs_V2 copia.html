@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso IA: ChatGPT, Gemini y Copilot para Docentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        html {
+             scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D1117;
+            color: #C9D1D9;
+        }
+        .glass-card {
+            background: rgba(22, 27, 34, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 62, 74, 0.5);
+            border-radius: 0.5rem;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #010409 0%, #0D1117 50%, #161B22 100%);
+        }
+        .highlight-text {
+            /* Alternating colors for the tools */
+            --color-chatgpt: #74A89A; /* OpenAI Teal */
+            --color-gemini: #89B4F8; /* Google Blue */
+            --color-copilot: #0078D4; /* Microsoft Blue */
+        }
+        .text-chatgpt { color: #74A89A; }
+        .text-gemini { color: #89B4F8; }
+        .text-copilot { color: #0078D4; }
+        
+        .prompt-code {
+            background-color: #010409;
+            border-left: 3px solid #58A6FF;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            font-family: 'Menlo', 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        .prompt-code strong {
+            color: #88C0D0;
+            font-weight: 600;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            border-radius: 0.25rem;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #58A6FF;
+            border-bottom-color: #58A6FF;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease;
+        }
+        .accordion-content ul, .accordion-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .accordion-content li {
+            margin-bottom: 0.5rem;
+        }
+        .accordion-content h5 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+            border-bottom: 1px solid rgba(56, 62, 74, 0.5);
+            padding-bottom: 0.25rem;
+        }
+        .accordion-content strong {
+            color: #89B4F8; /* Google Blue, stands out well */
+            font-weight: 600;
+        }
+        /* Table styles */
+        .comparison-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(56, 62, 74, 0.5);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: rgba(22, 27, 34, 0.9);
+            font-weight: 700;
+        }
+        .comparison-table td {
+            vertical-align: top;
+        }
+        .comparison-table ul {
+            margin: 0; padding-left: 1.25rem;
+        }
+
+        /* Style for icons */
+        .icon {
+             display: inline-block;
+             width: 1.2em;
+             height: 1.2em;
+             margin-right: 0.3em;
+             vertical-align: text-bottom;
+        }
+        /* Specific Icons (using Unicode for simplicity) */
+        .icon-lightbulb::before { content: '💡'; }
+        .icon-check::before { content: '✅'; }
+        .icon-cross::before { content: '❌'; }
+        .icon-tools::before { content: '🛠️'; }
+        .icon-brain::before { content: '🧠'; }
+        .icon-book::before { content: '📚'; }
+        .icon-warning::before { content: '⚠️'; }
+        .icon-target::before { content: '🎯'; }
+        .icon-chart::before { content: '📊'; }
+        .icon-gears::before { content: '⚙️'; }
+        .icon-users::before { content: '👥'; }
+        .icon-shield::before { content: '🛡️'; }
+        .icon-link::before { content: '🔗'; }
+        .icon-practice::before { content: '✍️'; }
+        .icon-conversation::before { content: '💬'; }
+        .icon-structure::before { content: '🏗️'; }
+        .icon-refine::before { content: '🔍'; }
+        .icon-gallery::before { content: '🖼️'; }
+        .icon-ethics::before { content: '⚖️'; }
+        .icon-future::before { content: '🚀'; }
+        .icon-google::before { content: '🇬'; }
+        .icon-openai::before { content: 'O'; }
+        .icon-microsoft::before { content: 'Ⓜ️'; }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header and Navigation -->
+    <header class="header-bg sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider flex items-center space-x-2">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-2 text-blue-400">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-7.5h1.5m1.5 0h1.5m1.5 0h1.5m1.5 0h1.5M12 12m-3.75 0a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 1 1-7.5 0Z" />
+                 </svg>
+                <span class="text-white">IA PARA DOCENTES:</span> 
+                <span class="text-chatgpt font-semibold">ChatGPT</span>
+                <span class="text-gemini font-semibold">Gemini</span>
+                <span class="text-copilot font-semibold">Copilot</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#sesion1" class="nav-link">Sesión 1</a>
+                <a href="#sesion2" class="nav-link">Sesión 2</a>
+                <a href="#sesion3" class="nav-link">Sesión 3</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section class="text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">Curso IA: El Tridente para Docentes</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl font-light mb-6">Domina ChatGPT, Gemini y Copilot</h2>
+             <p class="text-lg text-gray-400 max-w-4xl mx-auto"><span class="icon icon-target"></span>Transformar la percepción de la IA de una simple herramienta a un potente <strong class="font-semibold text-blue-300">equipo de asistentes pedagógicos personales</strong>. Este curso te capacita para dominar el *prompting* y decidir estratégicamente cuándo usar <strong class="text-chatgpt">ChatGPT</strong>, <strong class="text-gemini">Gemini</strong> o <strong class="text-copilot">Copilot</strong> para ahorrar tiempo, personalizar el aprendizaje y fomentar la creatividad en el aula.</p>
+        </section>
+
+        <!-- Session 1 -->
+        <section id="sesion1" class="mb-24 pt-16 -mt-16"> 
+            <div class="flex items-center mb-8">
+                <span class="text-5xl font-bold text-blue-400 mr-4">1</span>
+                <h3 class="text-3xl font-bold">Sesión 1: El Ecosistema de IA y la Fórmula del Prompting</h3>
+            </div>
+            
+             <div class="glass-card rounded-lg p-6 mb-8">
+                <h4 class="text-xl font-bold mb-4 text-blue-400">Objetivos de la Sesión</h4>
+                <ul class="space-y-3 text-gray-300 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span> <span class="icon icon-check"></span> Perder el miedo a la IA y comprender su rol como copiloto docente.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span> <span class="icon icon-check"></span> Dominar la interfaz básica de ChatGPT, Gemini y Copilot.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span> <span class="icon icon-check"></span> Comparar las fortalezas y debilidades de cada herramienta para saber cuál elegir.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span> <span class="icon icon-check"></span> Construir prompts efectivos aplicando la fórmula universal: Rol + Contexto + Tarea + Formato (RCTF).</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span> <span class="icon icon-check"></span> Crear recursos prácticos (ideas, ejercicios, imágenes, comunicaciones) de aplicación inmediata en el aula.</li>
+                </ul>
+            </div>
+
+            <div class="mt-12 space-y-4">
+                <!-- Accordion Items for Session 1 -->
+                <div class="glass-card rounded-lg accordion-item">
+                    <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-lightbulb"></span> 1. Bienvenida y Desmitificando la IA</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">¿Qué es realmente la IA Generativa? Una Metáfora Culinaria</h5>
+                            <p class="mb-4 text-gray-300">Lejos de ser una inteligencia artificial consciente, la definiremos como un <strong class="font-semibold text-blue-300">chef increíblemente rápido y con acceso a casi todas las recetas del mundo</strong>. Este chef ha leído millones de libros de cocina (su "entrenamiento"). No "inventa" platos de la nada, sino que, a partir de tus ingredientes (el "prompt"), predice cuál es la siguiente palabra más lógica para construir esa receta, basándose en todo lo que ha "leído".</p>
+                             <p class="mb-4 text-gray-300">Nosotros somos los jefes de cocina que damos las indicaciones; la IA es nuestro eficiente ayudante.</p>
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Mitos vs. Realidades (La Dosis de Realidad)</h5>
+                            <ul class="list-none space-y-3 text-gray-300">
+                                <li>
+                                    <span class="icon icon-cross text-red-400"></span><strong>Mito:</strong> "Nos quitará el trabajo". <br> <span class="icon icon-check text-green-400 ml-4"></span><strong>Realidad:</strong> Nos devolverá tiempo. Automatiza tareas repetitivas (crear borradores de emails, generar tablas, adaptar textos) para que podamos centrarnos en lo insustituible: la conexión humana, la empatía y el criterio pedagógico.
+                                </li>
+                                <li>
+                                     <span class="icon icon-cross text-red-400"></span><strong>Mito:</strong> "Es una fuente de verdad infalible". <br> <span class="icon icon-check text-green-400 ml-4"></span><strong>Realidad:</strong> La IA comete errores, conocidos como "alucinaciones". A veces inventa datos o fuentes con total seguridad. Su objetivo no es ser veraz, sino coherente. <strong class="font-semibold text-blue-300">Regla de oro: nunca confíes ciegamente, verifica siempre la información crucial.</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                         <span><span class="icon icon-gears"></span> 2. Puesta en Marcha: El Panel de Control del Docente</span>
+                         <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Acceso a las Herramientas</h5>
+                            <p class="mb-4 text-gray-300">Crearemos cuentas y exploraremos la interfaz (ventana de chat, prompt box, historial) de las tres plataformas. Es fundamental <strong class="font-semibold text-blue-300">renombrar los chats</strong> para organizar los proyectos.</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300 mb-6">
+                                <li><strong class="text-chatgpt">ChatGPT (OpenAI):</strong> <a href="https://chat.openai.com" target="_blank" class="text-blue-400 hover:underline">chat.openai.com</a></li>
+                                <li><strong class="text-gemini">Gemini (Google):</strong> <a href="https://gemini.google.com" target="_blank" class="text-blue-400 hover:underline">gemini.google.com</a> (Requiere cuenta de Google).</li>
+                                <li><strong class="text-copilot">Copilot (Microsoft):</strong> <a href="https://copilot.microsoft.com" target="_blank" class="text-blue-400 hover:underline">copilot.microsoft.com</a> (Requiere cuenta de Microsoft).</li>
+                            </ul>
+                            
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Fortalezas: ¿Cuándo Usar Cuál? (Tabla Actualizada)</h5>
+                            <p class="mb-4 text-gray-300">Esta es la decisión estratégica más importante. No hay una "mejor", sino una "más adecuada" para cada tarea.</p>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Herramienta</th>
+                                        <th>Modelos Gratuitos Clave</th>
+                                        <th>Fortaleza Principal</th>
+                                        <th>Mejor para...</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold text-chatgpt">ChatGPT</td>
+                                        <td>GPT-4o</td>
+                                        <td>Creatividad, Flexibilidad, Calidad de "Sparring" Intelectual.</td>
+                                        <td>
+                                            <ul>
+                                                <li>Brainstorming y generación de ideas creativas.</li>
+                                                <li>Escritura de código y depuración.</li>
+                                                <li>Simulación de roles complejos y debates.</li>
+                                                <li>Tareas de escritura que requieren "personalidad".</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gemini">Gemini</td>
+                                        <td>1.5 Pro (Contexto Largo) / 2.5 Flash (Rápido)</td>
+                                        <td>Integración Google Workspace, Análisis de Documentos Gigantes.</td>
+                                        <td>
+                                            <ul>
+                                                <li>Resumir y analizar PDFs, vídeos de YouTube y documentos de Google Drive.</li>
+                                                <li><strong class="font-semibold text-blue-300">Generación de imágenes (con ImaGen 3).</strong></li>
+                                                <li><strong class="font-semibold text-blue-300">Exportar contenido a Google Docs, Gmail o Google Slides.</strong></li>
+                                                <li>Búsqueda y síntesis de información en tiempo real.</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-copilot">Copilot</td>
+                                        <td>GPT-4, DALL-E 3</td>
+                                        <td>Integración Microsoft 365, Búsqueda Web (Bing) y Calidad de Imágenes.</td>
+                                        <td>
+                                            <ul>
+                                                <li><strong class="font-semibold text-blue-300">Generación de imágenes fotorrealistas o de alta calidad (DALL-E 3).</strong></li>
+                                                <li>Búsqueda de información muy actualizada con citas y fuentes.</li>
+                                                <li>(Con licencia Pro) Integración total en Word, PowerPoint y Teams.</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-brain"></span> 3. El Arte de Preguntar: La Fórmula Universal RCTF</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <p class="mb-4 text-gray-300">La fórmula <strong>RCTF</strong> funciona en las tres herramientas y es la clave para obtener resultados de calidad.</p>
+                             <ul class="list-none space-y-4 text-gray-300 mb-6">
+                                <li>
+                                    <span class="font-bold text-xl text-blue-400">R - Rol (El Sombrero del Experto):</span> Le decimos <strong>quién</strong> es. (ej: "Actúa como un biólogo divulgador").
+                                </li>
+                                <li>
+                                    <span class="font-bold text-xl text-blue-400">C - Contexto (El Mapa):</span> Le decimos <strong>para quién, por qué, dónde</strong>. (ej: "...para mis alumnos de 1º de la ESO con dificultades de abstracción").
+                                </li>
+                                <li>
+                                    <span class="font-bold text-xl text-blue-400">T - Tarea (La Acción):</span> Verbos de acción claros. (ej: "Genera 3 analogías", "Crea una lista de 5 ejercicios").
+                                </li>
+                                <li>
+                                    <span class="font-bold text-xl text-blue-400">F - Formato (La Presentación):</span> Cómo queremos la respuesta. (ej: "en una tabla Markdown", "como un email formal").
+                                </li>
+                             </ul>
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Demostración: De Vago a Valioso</h5>
+                            <p class="mb-4 text-gray-300">Vamos a aplicar esto en tiempo real. Partimos de un prompt muy común y poco útil:</p>
+                            <p class="italic text-gray-500 mb-4 ml-4">"dame ideas de historia"</p>
+                            <p class="mb-4 text-gray-300">Esta petición es vaga. ¿Qué historia? ¿Para qué nivel? ¿En qué formato? La IA nos dará una respuesta genérica. Ahora, apliquemos la fórmula RCTF paso a paso:</p>
+                            <p class="prompt-code">"<strong>[R: Actúa como un docente de Historia innovador y experto en metodologías activas]</strong>. <strong>[C: Para mis alumnos de 4º de la ESO que encuentran la Revolución Francesa un tema denso y poco motivador]</strong>, <strong>[T: genera 3 ideas de actividades prácticas y originales]</strong> para fomentar la participación. <strong>[F: Preséntalas en una tabla]</strong> con las columnas 'Nombre de la Actividad', 'Descripción Detallada' y 'Materiales Necesarios'."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-tools"></span> 4. Taller de Prácticas Rápidas (Elige tu Herramienta)</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4 space-y-8">
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica 1: Lluvia de Ideas Creativas (Ideal: <strong class="text-chatgpt">ChatGPT</strong>)</h5>
+                                <p class="mb-2 text-gray-300"><strong>Consigna:</strong> Genera 5 "ganchos" o actividades de inicio para un tema árido de tu asignatura.</p>
+                                <div class="prompt-code">"<strong>[R: Actúa como un docente innovador y experto en 'gamificación']</strong>. <strong>[C: Para mis alumnos de 2º Bachillerato que empiezan la unidad de 'Integrales']</strong>, <strong>[T: genera 5 ideas de actividades de inicio (ganchos) de 5 minutos]</strong> que conecten el concepto con la vida real y despierten su curiosidad. <strong>[F: Preséntalas en una lista numerada con un título creativo para cada una]</strong>."</div>
+                            </div>
+
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica 2: Generación de Imágenes (Ideal: <strong class="text-copilot">Copilot</strong> o <strong class="text-gemini">Gemini</strong>)</h5>
+                                <p class="mb-2 text-gray-300"><strong>Consigna:</strong> Tanto Copilot (con DALL-E 3) como Gemini (con ImaGen 3) ofrecen excelente generación de imágenes gratuita. Sé muy descriptivo.</p>
+                                <div class="prompt-code">"<strong>(Para Copilot) [T: Genera una imagen]</strong> de un <strong class="font-semibold text-blue-300">escenario histórico para una actividad de simulación</strong>: un <strong class="font-semibold text-blue-300">mercado medieval abarrotado y bullicioso</strong>. La imagen debe ser <strong class="font-semibold text-blue-300">fotorrealista, con iluminación cálida de atardecer</strong> y <strong class="font-semibold text-blue-300">sin texto</strong>."</div>
+                                <div class="prompt-code">"<strong>(Para Gemini) [T: Genera una imagen]</strong> en <strong class="font-semibold text-blue-300">estilo 'pixel art' de 16 bits</strong> de un <strong class="font-semibold text-blue-300">átomo de litio</strong>, mostrando claramente sus 3 electrones y el núcleo, para una presentación de 2º de la ESO."</div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica 3: Adaptación de Contenidos (Ideal: <strong class="text-gemini">Gemini</strong> o <strong class="text-chatgpt">ChatGPT</strong>)</h5>
+                                <p class="mb-2 text-gray-300"><strong>Consigna:</strong> Pega un texto complejo y pide que lo adapte a diferentes niveles.</p>
+                                <div class="prompt-code">"<strong>[R: Actúa como un experto en Diseño Universal de Aprendizaje (DUA)]</strong>. <strong>[T: Adapta el siguiente texto]</strong> sobre la mitosis [pegar texto aquí] <strong>[C: para un alumno de 1º de la ESO con dificultades de comprensión lectora]</strong>. <strong>[F: Usa frases cortas, vocabulario sencillo y una analogía]</strong>."</div>
+                                <div class="prompt-code">"<strong>[T: Traduce el siguiente texto]</strong> [pegar texto] <strong>[C: a un nivel B1 de inglés]</strong>, pero <strong>[F: presenta el resultado en una tabla de dos columnas]</strong>: 'Frase Original (Español)' y 'Traducción (Inglés)'."</div>
+                            </div>
+
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica 4: Comunicación Eficiente (Universal)</h5>
+                                <p class="mb-2 text-gray-300"><strong>Consigna:</strong> Redacta dos tipos de comunicaciones profesionales.</p>
+                                 <div class="prompt-code">"<strong>[R: Actúa como tutor de 4º de la ESO]</strong>. <strong>[T: Redacta un email para las familias]</strong> <strong>[C: informando sobre la próxima excursión al Museo de las Ciencias, incluyendo fecha, hora, precio y objetivo pedagógico]</strong>. <strong>[F: El tono debe ser cercano, profesional y tranquilizador]</strong>."</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 2 -->
+         <section id="sesion2" class="mb-24 pt-16 -mt-16">
+             <div class="flex items-center mb-8">
+                <span class="text-5xl font-bold text-blue-400 mr-4">2</span>
+                <h3 class="text-3xl font-bold">Sesión 2: Diseño Curricular y Creación de Contenidos</h3>
+            </div>
+             <div class="glass-card rounded-lg p-6 mb-8">
+                <h4 class="text-xl font-bold mb-4 text-blue-400">Objetivos de la Sesión</h4>
+                 <ul class="space-y-3 text-gray-300 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Aprender a "alimentar" a la IA con documentos (PDFs, Docs) usando <strong class="text-gemini">Gemini</strong> y <strong class="text-copilot">Copilot Pro</strong>.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Diseñar una Situación de Aprendizaje (SdA) completa y alineada con la normativa curricular (LOMLOE).</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Crear rúbricas de evaluación complejas y coherentes con los criterios curriculares en segundos.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Crear borradores de presentaciones (Google Slides / PowerPoint) usando <strong class="text-gemini">Gemini</strong> y <strong class="text-copilot">Copilot</strong>.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Aplicar la técnica "Chain of Thought" (Cadena de Pensamiento) para guiar a la IA en tareas complejas.</li>
+                </ul>
+            </div>
+             <div class="mt-12 space-y-4">
+                <!-- Accordion Items for Session 2 -->
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-book"></span> 1. La Habilidad Clave: Conversar con tus Archivos</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Contextualizar con Documentos (El poder de Gemini y Copilot Pro)</h5>
+                            <p class="mb-4 text-gray-300">Esta es la función más potente para el diseño curricular. Le damos a la IA nuestro currículo (PDF) y le pedimos que base sus respuestas <strong class="font-semibold text-blue-300">exclusivamente</strong> en él.</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                                <li><strong class="text-gemini">Opción 1 (Gemini):</strong> Es la más potente y gratuita. Puedes subir PDFs, Docs o incluso <strong class="font-semibold text-blue-300">conectar tu Google Drive</strong> y decirle "Analiza el documento 'Currículo GVA' que tengo en mi Drive".</li>
+                                <li><strong class="text-copilot">Opción 2 (Copilot Pro):</strong> Permite subir archivos (PDF, Word) en la versión de pago.</li>
+                                <li><strong class="text-chatgpt">Opción 3 (Alternativa Gratuita):</strong> Si no tienes las funciones de carga, <strong class="font-semibold text-blue-300">copia y pega</strong> el texto relevante del currículo (ej. 2-3 páginas de criterios) en el prompt antes de la instrucción.</li>
+                            </ul>
+                            <p class="prompt-code">"He subido/pegado el decreto del currículo de mi asignatura. <strong class="font-semibold text-blue-300">Basándote estrictamente en él</strong>, resume en 3 puntos clave las competencias específicas para [asignatura y curso]."</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-tools"></span> 2. Práctica: Diseño de SdA Alineada (Mega-Prompt)</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                             <p class="mb-2 text-gray-300"><strong>Objetivo:</strong> Co-crear un borrador de SdA coherente. <strong class="text-gemini">(Recomendado: Usar Gemini por su capacidad de analizar PDFs largos).</strong></p>
+                             <p class="mb-4 text-gray-300"><strong>Consigna:</strong> Sube (o pega) las 2-3 páginas de tu currículo (Competencias, Criterios, Saberes). Luego, usa esta plantilla.</p>
+                            <div class="prompt-code">"<strong>[R: Actúa como un diseñador instruccional experto en LOMLOE]</strong>. <strong>[C: Basándote exclusivamente en el documento curricular adjunto/pegado]</strong>, <strong>[T: diseña un borrador detallado para una Situación de Aprendizaje]</strong> llamada '[Nombre creativo para la SdA]' destinada a [Contexto: curso, ej: 3º de la ESO]. La SdA debe movilizar los saberes y competencias del documento. <strong>[F: Estructura tu propuesta así]</strong>:
+
+<strong class="font-semibold text-blue-300">1. Contexto y Reto:</strong> (Describe un escenario realista y motivador).
+<strong class="font-semibold text-blue-300">2. Producto Final:</strong> (Define un producto tangible o desempeño observable).
+<strong class="font-semibold text-blue-300">3. Secuencia de Tareas Clave:</strong> (Desglosa en 3-5 fases principales).
+<strong class="font-semibold text-blue-300">4. Conexión Curricular Explícita:</strong> (Enumera qué competencias específicas y criterios de evaluación del documento se abordan)."</div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-chart"></span> 3. Práctica: Generando Rúbricas Coherentes</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <p class="mb-2 text-gray-300"><strong>Objetivo:</strong> Crear una rúbrica alineada con la SdA y el currículo en segundos.</p>
+                             <p class="mb-4 text-gray-300"><strong>Consigna:</strong> En el mismo chat donde creaste la SdA (para que "recuerde" el contexto), usa esta plantilla.</p>
+                            <div class="prompt-code">"<strong>[R: Actúa como un experto en evaluación por competencias]</strong>. <strong>[C: Basándote en la SdA que acabamos de diseñar y usando los criterios de evaluación del documento curricular analizado]</strong>, <strong>[T: crea una rúbrica detallada]</strong> para evaluar el [Contexto: producto final específico de tu SdA]. <strong>[F: La rúbrica debe ser una tabla Markdown con 4 columnas de niveles de logro]</strong> (Insuficiente, Suficiente, Notable, Sobresaliente) y <strong>[F: 3 filas para los criterios de evaluación]</strong>. Asegúrate de que cada criterio esté <strong class="font-semibold text-blue-300">vinculado a un criterio oficial del documento</strong> y describe de forma observable el desempeño en cada nivel."</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-gallery"></span> 4. Práctica Nueva: Creación de Diapositivas</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <p class="mb-2 text-gray-300">Aquí vemos una clara diferencia de fortalezas entre herramientas.</p>
+
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Opción A: Gemini + Google Slides (Integración Directa)</h5>
+                            <p class="mb-2 text-gray-300"><strong class="text-gemini">Gemini</strong> puede tener extensiones para conectarse a Google Workspace. Si está activa, puede exportar directamente.</p>
+                            <div class="prompt-code">"<strong>[R: Actúa como experto en Biología Celular]</strong>. <strong>[T: Crea una presentación de 7 diapositivas sobre 'La Mitosis']</strong> <strong>[C: para 1º de Bachillerato]</strong>. La Diapositiva 1 debe ser el título. La 2 una introducción. 3-5 las fases (Profase, Metafase, Anafase/Telofase). 6 un vídeo corto sugerido. 7 una conclusión. <strong>[T: Exporta esta estructura a Google Slides]</strong>."</div>
+                        
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Opción B: Copilot + PowerPoint (Integración M365)</h5>
+                            <p class="mb-2 text-gray-300">Esta es una función de <strong class="text-copilot">Copilot Pro</strong> o licencias M365. El prompt se escribe <strong class="font-semibold text-blue-300">dentro</strong> de la aplicación de PowerPoint.</p>
+                            <div class="prompt-code">(Dentro de PowerPoint) "<strong>[T: Crear una presentación de 10 diapositivas sobre la Revolución Industrial]</strong>, <strong>[C: enfocándote en las causas sociales y los inventos clave]</strong>. <strong>[T: Incluye imágenes generadas por IA]</strong> de fábricas de la época y un diseño profesional."</div>
+                        
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Opción C: Universal (ChatGPT / Guion)</h5>
+                            <p class="mb-2 text-gray-300">Si no tenemos integración, usamos la IA para que haga el 90% del trabajo: el guion completo.</p>
+                            <div class="prompt-code">"<strong>[R: Actúa como un gran comunicador]</strong>. <strong>[T: Genera el guion completo para una presentación de 10 minutos (5 diapositivas)]</strong> sobre <strong class="font-semibold text-blue-300">'El concepto de Antropoceno'</strong> <strong>[C: para 4º de la ESO]</strong>. <strong>[F: Para cada diapositiva, dame: Título, Puntos Clave (bullets) y una Nota del Orador detallada]</strong> con el texto exacto que dirías."</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-brain"></span> 5. Prompting Avanzado: "Chain of Thought" (CoT)</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                         <div class="py-4 space-y-6">
+                            <div>
+                               <h5 class="text-lg font-semibold mb-2 text-blue-400">Explicación: CoT o "Piensa Paso a Paso"</h5>
+                               <p class="mb-4 text-gray-300">El "Chain of Thought" (CoT) o Cadena de Pensamiento es una técnica que le pide a la IA que <strong class="font-semibold text-blue-300">"piense paso a paso"</strong> o que <strong class="font-semibold text-blue-300">"razone su respuesta antes de darla"</strong>. Al forzarla a verbalizar su proceso de razonamiento, conseguimos mayor precisión en tareas lógicas o de planificación. Se activa simplemente añadiendo esa frase.</p>
+                            </div>
+                            <div>
+                               <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica: Refinando la SdA con "Chain of Thought"</h5>
+                               <p class="mb-4 text-gray-300"><strong>Consigna:</strong> Continuando la conversación sobre nuestra SdA, vamos a pedirle a la IA que la revise críticamente, forzando un razonamiento interno.</p>
+                               <div class="prompt-code">"Vamos a refinar la Situación de Aprendizaje sobre '<strong class="font-semibold text-blue-300">[Nombre de tu SdA]</strong>'. Quiero que <strong class="font-semibold text-blue-300">pienses paso a paso</strong> para mejorarla. Sigue estas etapas en tu razonamiento interno:
+
+1.  <strong>Análisis Crítico:</strong> ¿El producto final es motivador? ¿Se alinea bien? Propón 2 alternativas.
+2.  <strong>Revisión de Secuencia:</strong> ¿Las fases son lógicas? ¿Falta algún paso (ej: investigación, coevaluación)?
+3.  <strong>Inclusión y Diversidad:</strong> Propón 3 adaptaciones (acceso, curricular, enriquecimiento).
+
+<strong>Una vez hayas completado este análisis paso a paso, presenta la versión final y mejorada de la SdA</strong>."</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 3 -->
+         <section id="sesion3" class="mb-12 pt-16 -mt-16">
+             <div class="flex items-center mb-8">
+                <span class="text-5xl font-bold text-blue-400 mr-4">3</span>
+                <h3 class="text-3xl font-bold">Sesión 3: Automatización, Pensamiento Crítico y Galería de Prompts</h3>
+            </div>
+             <div class="glass-card rounded-lg p-6 mb-8">
+                <h4 class="text-xl font-bold mb-4 text-blue-400">Objetivos de la Sesión</h4>
+                <ul class="space-y-3 text-gray-300 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Crear asistentes de IA personalizados GPTs .</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Diseñar y aplicar prompts que conviertan a la IA en un "sparring" intelectual para fomentar el pensamiento crítico.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Explorar una galería de prompts avanzados para tareas de aula: simulación, feedback y creatividad.</li>
+                    <li class="flex items-start"><span class="mr-2 text-blue-400">✧</span><span class="icon icon-check"></span> Consolidar un plan de acción personal para integrar las tres IAs de forma estratégica y ética.</li>
+                </ul>
+            </div>
+             <div class="mt-12 space-y-4">
+                <!-- Accordion Items for Session 3 -->
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-lightbulb"></span> 1. Asistentes a Medida: GPTs, Gems y Copilots Personalizados</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <h5 class="text-lg font-semibold mb-2 text-blue-400">Creando tus Propios Expertos (Funciones Premium)</h5>
+                            <p class="mb-4 text-gray-300">Las tres plataformas ofrecen (en sus versiones de pago) la creación de "asistentes personalizados". Es como si pudiéramos <strong>guardar permanentemente</strong> un Rol, unas Instrucciones detalladas y una base de Conocimiento (documentos subidos).</p>
+                             <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                                <li><strong class="text-chatgpt">ChatGPT (Plus) -> "GPTs":</strong> El más conocido y con una "tienda" (GPT Store).</li>
+                                <li><strong class="text-gemini">Gemini (Advanced) -> "Gems":</strong> Más reciente, ideal para integrarse con el ecosistema Google.</li>
+                                <li><strong class="text-copilot">Copilot (Pro) -> "Copilot GPTs":</strong> Integrado en la interfaz de Copilot, permite también usar plugins.</li>
+                            </ul>
+                            <p class="mb-4 text-gray-300">La ventaja clave es la <strong>eficiencia y la consistencia</strong>. No necesitas escribir el Mega-Prompt de SdA cada vez; simplemente llamas a tu "Asistente de SdA".</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-tools"></span> 2. Taller: Construyendo Nuestros Asistentes (Guías de Inicio)</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4 space-y-8">
+                             <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Guía Rápida para Crear un GPT (Interfaz <strong class="text-chatgpt">ChatGPT Plus</strong>)</h5>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-300 mb-4">
+                                    <li>En el menú lateral de ChatGPT, haz clic en <strong>"Explore GPTs"</strong> -> <strong>"+ Create"</strong>.</li>
+                                    <li>Ve a la pestaña <strong>"Configure"</strong>.</li>
+                                    <li><strong>Name:</strong> "Asistente de Rúbricas ESO".</li>
+                                    <li><strong>Instructions:</strong> Pega el prompt de la Práctica 8.</li>
+                                    <li><strong>Knowledge:</strong> Sube el PDF del currículo.</li>
+                                    <li><strong>Save:</strong> (Elige "Only me" o "Anyone with a link").</li>
+                                </ol>
+
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400 mt-6">Guía Rápida para Crear un "Copilot GPT" (Interfaz <strong class="text-copilot">Copilot Pro</strong>)</h5>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-300 mb-4">
+                                    <li>Accede a Copilot (con suscripción Pro) y busca la opción <strong>"Crear un nuevo Copilot GPT"</strong> (suele estar en el menú lateral o bajo tu perfil).</li>
+                                    <li>Se abrirá una interfaz similar a la de ChatGPT, con dos pestañas: <strong>"Crear"</strong> (un chat que te guía) y <strong>"Configurar"</strong>. Iremos a <strong>"Configurar"</strong>.</li>
+                                    <li><strong>Nombre y Descripción:</strong> Dale un nombre (ej: "Asistente Curricular LOMLOE") y una descripción.</li>
+                                    <li><strong>Instrucciones:</strong> Pega aquí tu Mega-Prompt (Rol, Tareas, Reglas).</li>
+                                    <li><strong>Conocimiento:</strong> Haz clic en <strong>"Cargar archivos"</strong> para subir tus PDFs del currículo.</li>
+                                    <li><strong>Publicar:</strong> Guarda y publica (para ti o con enlace).</li>
+                                </ol>
+
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400 mt-6">Guía Rápida para Crear un "Gem" (Interfaz <strong class="text-gemini">Gemini Advanced</strong>)</h5>
+                                <p class="mb-4 text-gray-300">Esta función ("Gems") se está implementando para usuarios de Gemini Advanced.</p>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-300 mb-4">
+                                    <li>En Gemini, haz clic en tu perfil y busca la opción <strong>"Mis Gems"</strong> (o "My Gems").</li>
+                                    <li>Haz clic en <strong>"Crear un nuevo Gem"</strong>.</li>
+                                    <li><strong>Nombre y Descripción:</strong> Dale un nombre (ej: "Generador de Prácticas de Física").</li>
+                                    <li><strong>Instrucciones (Prompt):</strong> Este es el campo clave. Pega tu Mega-Prompt detallado aquí. Define el Rol, el Tono y el Proceso que debe seguir.</li>
+                                    <li>(Opcional) En el prompt, puedes instruirle que "consulte siempre el documento 'Currículo_2024.pdf' de mi Google Drive".</li>
+                                    <li>Guarda el Gem. Ahora aparecerá en tu barra lateral como un asistente personalizado.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-gallery"></span> 3. Galería de Prompts Avanzados para el Aula (Universal)</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4 space-y-8">
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica: La IA como "Sparring" Intelectual</h5>
+                                 <p class="mb-4 text-gray-300"><strong>Objetivo:</strong> Usar la IA para fortalecer nuestro pensamiento crítico, no para que nos dé la razón.</p>
+                                <p class="mb-4 text-gray-300"><strong>Consigna:</strong> Inicia un nuevo chat (Ideal <strong class="text-chatgpt">ChatGPT</strong>) y pega este "Mega-Prompt de Rol". Luego, preséntale una idea pedagógica.</p>
+                                <div class="prompt-code">"A partir de ahora, <strong class="font-semibold text-blue-300">actúa como un compañero intelectual crítico pero constructivo</strong>. Cada vez que te presente una idea pedagógica, realiza sistemáticamente:
+1.  <strong class="font-semibold text-blue-300">Análisis de Suposiciones Subyacentes:</strong> (¿Qué estoy dando por sentado?).
+2.  <strong class="font-semibold text-blue-300">Contraargumentos Razonados:</strong> (Presenta 2 objeciones o puntos débiles).
+3.  <strong class="font-semibold text-blue-300">Test de Estrés Lógico:</strong> (¿Hay fallas en mi razonamiento?).
+4.  <strong class="font-semibold text-blue-300">Perspectivas Alternativas:</strong> (Propón otro enfoque).
+Prioriza la verdad pedagógica sobre el acuerdo. Tu meta es impulsar mi claridad metodológica."</div>
+                            </div>
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica: Simulación de Rol (Viaje en el Tiempo)</h5>
+                                <div class="prompt-code">"<strong>[R: Actúa como si fueras [Personaje: Marie Curie]]</strong>. <strong>[C: Voy a hacerte una breve entrevista para la revista del instituto]</strong>. Responde a mis preguntas <strong class="font-semibold text-blue-300">en primera persona</strong>, usando el lenguaje, conocimientos y perspectiva que tendrías en tu época. Mantén el personaje. Mi primera pregunta es: <strong class="font-semibold text-blue-300">[Tu pregunta: ¿Qué sentiste al descubrir un nuevo elemento?]</strong>"</div>
+                            </div>
+                             <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica: Generador de Casos de Estudio (Ética/Tutoría)</h5>
+                                <div class="prompt-code">"<strong>[R: Actúa como un tutor de 1º Bachillerato experto en ética digital]</strong>. <strong>[T: Genera un dilema ético breve (150 palabras)]</strong> <strong>[C: sobre un estudiante que usa IA para hacer un trabajo de filosofía]</strong>. El dilema debe tener dos posturas claras (ej. 'eficiencia vs honestidad') y no tener una respuesta obvia. <strong>[F: Preséntalo como un caso de estudio para debatir en clase]</strong>."</div>
+                            </div>
+                            <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Práctica: Feedback Formativo (Corrección Rápida)</h5>
+                                <div class="prompt-code">"<strong>[R: Actúa como mi profesor de [Asignatura]]</strong>. Soy un alumno de 4º ESO y este es mi párrafo: [pegar párrafo del alumno]. <strong>[T: Dame feedback formativo usando la técnica del 'sándwich']</strong> (algo positivo, algo a mejorar, y un cierre motivador). <strong>[F: No reescribas el texto, solo dame 3 bullets de consejo]</strong>."</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="glass-card rounded-lg accordion-item">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-users"></span> 4. Plan de Integración Personal y Cierre del Curso</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4 space-y-8">
+                           <div>
+                                <h5 class="text-lg font-semibold mb-2 text-blue-400">Hoja de Ruta Personalizada: Mi Flujo de Trabajo con IA</h5>
+                                <p class="mb-4 text-gray-300">Traduce lo aprendido en acciones. Reflexiona sobre:</p>
+                                <ul class="list-disc list-inside space-y-3 text-gray-300 mb-6">
+                                    <li><strong>Identificación de Tareas:</strong> ¿Cuáles son las <strong>3 tareas</strong> que más tiempo te consumen y que puedes optimizar? (ej: crear ejercicios, adaptar textos, redactar informes).</li>
+                                    <li><strong>Selección de Herramienta:</strong> Para cada tarea, ¿qué herramienta es mejor? (ej: Para adaptar textos -> <strong class="text-chatgpt">ChatGPT</strong>. Para analizar currículo -> <strong class="text-gemini">Gemini</strong>. Para crear imágenes -> <strong class="text-copilot">Copilot</strong> o <strong class="text-gemini">Gemini</strong>).</li>
+                                    <li><strong>Asistente Ideal:</strong> ¿Qué GPT/Copilot/Gem personalizado te sería más útil crear?</li>
+                                    <li><strong>Primer Paso Realista:</strong> ¿Cuál es el <strong>primer pequeño paso</strong> que te comprometes a dar <strong>la próxima semana</strong> para integrar esto en tu práctica?</li>
+                                </ul>
+                                <p class="text-gray-300">Este es el <strong class="font-semibold text-blue-300">borrador de tu plan de acción personal</strong> para trabajar de forma más inteligente.</p>
+                           </div>
+                         
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg accordion-item mt-8">
+                     <button class="w-full flex justify-between items-center p-6 text-left text-xl font-bold focus:outline-none accordion-button">
+                        <span><span class="icon icon-future"></span> Conclusión Final: La IA como Aliada Estratégica</span>
+                        <span class="accordion-arrow text-2xl text-blue-400">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="py-4">
+                            <p class="mb-4 text-gray-300">Hemos descubierto que el verdadero poder de estas herramientas no reside en su capacidad para generar respuestas rápidas, sino en <strong class="font-semibold text-blue-300">nuestra habilidad para formular las preguntas correctas</strong>. Dominar el <strong class="font-semibold text-blue-300">arte del prompting</strong> nos convierte en <strong class="font-semibold text-blue-300">arquitectos de nuestra propia eficiencia docente</strong>. Nos permite delegar tareas mecánicas para <strong class="font-semibold text-blue-300">reinvertir nuestro tiempo en lo verdaderamente humano e insustituible</strong>: inspirar, guiar y conectar con el alumnado.</p>
+                            <p class="mb-4 text-gray-300">Este curso es un <strong class="font-semibold text-blue-300">punto de partida sólido</strong>. La tecnología evolucionará, pero los principios que hemos practicado –la <strong class="font-semibold text-blue-300">curiosidad</strong>, el <strong class="font-semibold text-blue-300">pensamiento crítico</strong> y la <strong class="font-semibold text-blue-300">adaptación</strong>– son competencias atemporales.</p>
+                            <p class="font-semibold text-blue-400 text-lg">El futuro de la educación no consiste en ser reemplazados por la tecnología, sino en ser <strong class="font-semibold text-blue-300">docentes aumentados y potenciados por ella</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="header-bg border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Curso de IA para Docentes (ChatGPT, Gemini, Copilot). Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const button = item.querySelector('.accordion-button');
+                const content = item.querySelector('.accordion-content');
+                if (button && content) { // Check if elements exist
+                    button.addEventListener('click', () => {
+                        const isOpen = button.classList.contains('open');
+
+                        // Close all others before opening the current one
+                        accordionItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                const otherButton = otherItem.querySelector('.accordion-button');
+                                const otherContent = otherItem.querySelector('.accordion-content');
+                                if (otherButton && otherContent && otherButton.classList.contains('open')) {
+                                    otherButton.classList.remove('open');
+                                    otherContent.style.maxHeight = '0';
+                                    otherContent.style.padding = '0 1.5rem';
+                                }
+                            }
+                        });
+
+                        // Toggle current item
+                        if (isOpen) {
+                            button.classList.remove('open');
+                            content.style.maxHeight = '0';
+                            content.style.padding = '0 1.5rem';
+                        } else {
+                            button.classList.add('open');
+                            content.style.padding = '1rem 1.5rem';
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                        }
+                    });
+
+                    // Recalculate max-height if window resizes
+                    window.addEventListener('resize', () => {
+                        if (button.classList.contains('open')) {
+                            content.style.maxHeight = 'none';
+                            const scrollHeight = content.scrollHeight;
+                            content.style.maxHeight = '0';
+                            requestAnimationFrame(() => {
+                                content.style.maxHeight = scrollHeight + 'px';
+                            });
+                        }
+                    });
+                }
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+            const headerEl = document.querySelector('header');
+            const headerOffset = headerEl ? headerEl.offsetHeight : 70; // Default offset if header not found
+
+            // Function to update active link
+             const updateActiveLink = () => {
+                 let currentSectionId = '';
+
+                 // Get scroll position
+                 const scrollPosition = window.scrollY;
+
+                 sections.forEach(section => {
+                     // Adjust top offset for header and anchor margin
+                     const sectionTop = section.offsetTop - headerOffset - 50;
+                     const sectionBottom = sectionTop + section.offsetHeight;
+
+                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                         currentSectionId = section.getAttribute('id');
+                     }
+                 });
+
+                // Check for bottom of page
+                 if (window.innerHeight + scrollPosition >= document.body.offsetHeight - 50) { // Near bottom
+                    currentSectionId = sections.length > 0 ? sections[sections.length - 1].getAttribute('id') : '';
+                 }
+                // Check for top of page
+                 if (sections.length > 0 && scrollPosition < sections[0].offsetTop - headerOffset - 50) {
+                     currentSectionId = sections[0].getAttribute('id');
+                 }
+
+
+                 navLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${currentSectionId}`) {
+                         link.classList.add('active');
+                     }
+                 });
+             };
+
+             // Initial check and update on scroll
+             updateActiveLink();
+             window.addEventListener('scroll', updateActiveLink);
+
+             // Smooth scroll for nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20; // Extra 20px margin
+
+                         window.scrollTo({
+                             top: offsetPosition,
+                             behavior: "smooth"
+                         });
+
+                        // Update active link immediately for better UX
+                         navLinks.forEach(nav => nav.classList.remove('active'));
+                         this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
