@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Prompts Educativos para IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl">
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Generador de Prompts Educativos para IA</h1>
+            <p class="text-gray-600 mt-2 text-md">Crea instrucciones detalladas y efectivas para modelos de IA en el ámbito educativo.</p>
+        </header>
+
+        <!-- Main content grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Form Section -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <form id="prompt-form" class="space-y-6">
+                    <div>
+                        <label for="rol-general" class="block text-sm font-medium text-gray-700 mb-1">1. Asignación de Rol General</label>
+                        <select id="rol-general" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option>Profesor</option>
+                            <option>Ingeniero</option>
+                            <option>Científico</option>
+                            <option>Investigador</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="asignatura" class="block text-sm font-medium text-gray-700 mb-1">2. Asignatura</label>
+                        <input type="text" id="asignatura" placeholder="Ej: Matemáticas, Historia, Biología" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" required>
+                    </div>
+                    
+                    <div>
+                        <label for="nivel-educativo" class="block text-sm font-medium text-gray-700 mb-1">3. Nivel Educativo</label>
+                        <input type="text" id="nivel-educativo" placeholder="Ej: Secundaria, Bachillerato, Universidad" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" required>
+                    </div>
+
+                    <div>
+                        <label for="rol-experto" class="block text-sm font-medium text-gray-700 mb-1">4. Asignación de Rol Experto</label>
+                        <select id="rol-experto" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option>Experiencia en metodologías educativas innovadoras</option>
+                            <option>Especializado en diseño de evaluaciones</option>
+                            <option>Experto en tecnología educativa</option>
+                            <option>Especializado en diversidad e inclusión educativa</option>
+                            <option>Experto en enseñanza centrada en el estudiante</option>
+                            <option>Especialista en planificación educativa</option>
+                            <option>Coordinador de cronogramas académicos</option>
+                            <option>Planificador de actividades docentes</option>
+                            <option>Especialista en organización escolar</option>
+                            <option>Analista de programas de estudio</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="instruccion-basica" class="block text-sm font-medium text-gray-700 mb-1">5. Instrucción Básica</label>
+                        <input type="text" id="instruccion-basica" placeholder="Ej: Crear un plan de lección, Diseñar un examen" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" required>
+                    </div>
+
+                    <div>
+                        <label for="tema-unidad" class="block text-sm font-medium text-gray-700 mb-1">6. Tema de la Unidad Didáctica</label>
+                        <input type="text" id="tema-unidad" placeholder="Ej: La Célula, La Revolución Francesa" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" required>
+                    </div>
+                    
+                    <div>
+                        <label for="metodologia" class="block text-sm font-medium text-gray-700 mb-1">7. Metodología (Opcional)</label>
+                        <select id="metodologia" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="">Selecciona una metodología</option>
+                            <option>Aprendizaje basado en proyectos (ABP)</option>
+                            <option>Indagación científica</option>
+                            <option>Enseñanza activa y participativa</option>
+                            <option>Aprendizaje colaborativo</option>
+                            <option>Resolución de problemas</option>
+                            <option>Diseño de unidades didácticas</option>
+                            <option>Planificación por competencias</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="detalles" class="block text-sm font-medium text-gray-700 mb-1">8. Detalles (Opcional)</label>
+                        <textarea id="detalles" rows="3" placeholder="Añade detalles específicos: duración, número de alumnos, recursos disponibles..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="estructura" class="block text-sm font-medium text-gray-700 mb-1">9. Estructura (Opcional)</label>
+                        <select id="estructura" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="">Selecciona una estructura</option>
+                            <option>Introducción, desarrollo, actividades, evaluación</option>
+                            <option>Planteamiento del problema, desarrollo, conclusiones</option>
+                            <option>Presentación, ejercicios, discusión, evaluación</option>
+                            <option>Teoría, práctica, evaluación</option>
+                            <option>Contextualización, objetivos, desarrollo, evaluación</option>
+                            <option>Exploración, aplicación, reflexión, evaluación</option>
+                            <option>Desafío, investigación, análisis, presentación</option>
+                            <option>Desempeño, contenido, actividades, recursos, evaluación</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">10. ¿Vas a adjuntar algún documento?</label>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="adjuntar-documento" value="si" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                                <span class="ml-2 text-sm text-gray-700">Sí</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="adjuntar-documento" value="no" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" checked>
+                                <span class="ml-2 text-sm text-gray-700">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="tipo-documento-container" class="hidden">
+                        <label for="tipo-documento" class="block text-sm font-medium text-gray-700 mb-1">Tipo de documento adjunto (Opcional)</label>
+                        <input type="text" id="tipo-documento" placeholder="Ej: PDF con rúbrica, currículo educativo, programación..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                    </div>
+
+
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105">
+                        Generar Instrucciones
+                    </button>
+                </form>
+            </div>
+
+            <!-- Output Section -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Instrucciones Generadas</h2>
+                <div class="relative flex-grow">
+                    <textarea id="output" readonly class="w-full h-full min-h-[300px] lg:min-h-full bg-gray-50 p-4 border border-gray-200 rounded-lg resize-none focus:outline-none" placeholder="Aquí aparecerá tu prompt generado..."></textarea>
+                     <button id="copy-button" class="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition" title="Copiar al portapapeles">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+                 <div id="copy-feedback" class="text-center text-green-600 font-medium mt-2 h-5 transition-opacity duration-300 opacity-0">
+                    ¡Copiado!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('prompt-form');
+            const output = document.getElementById('output');
+            const copyButton = document.getElementById('copy-button');
+            const copyFeedback = document.getElementById('copy-feedback');
+            const radiosAdjuntar = document.querySelectorAll('input[name="adjuntar-documento"]');
+            const tipoDocumentoContainer = document.getElementById('tipo-documento-container');
+
+            radiosAdjuntar.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'si') {
+                        tipoDocumentoContainer.classList.remove('hidden');
+                    } else {
+                        tipoDocumentoContainer.classList.add('hidden');
+                    }
+                });
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Get values from form fields
+                const rolGeneral = document.getElementById('rol-general').value;
+                const asignatura = document.getElementById('asignatura').value;
+                const nivelEducativo = document.getElementById('nivel-educativo').value;
+                const rolExperto = document.getElementById('rol-experto').value;
+                const instruccionBasica = document.getElementById('instruccion-basica').value;
+                const temaUnidad = document.getElementById('tema-unidad').value;
+                const metodologia = document.getElementById('metodologia').value;
+                const detalles = document.getElementById('detalles').value;
+                const estructura = document.getElementById('estructura').value;
+                const adjuntarDocumento = document.querySelector('input[name="adjuntar-documento"]:checked').value;
+                const tipoDocumento = document.getElementById('tipo-documento').value;
+
+                // Build the prompt string
+                let prompt = `Actúa como un(a) ${rolGeneral} experto(a) en ${asignatura} para el nivel educativo de ${nivelEducativo}. Adicionalmente, asume la perspectiva de un especialista con ${rolExperto}.\n\nTu tarea principal es: ${instruccionBasica} sobre el tema "${temaUnidad}".`;
+
+                if (metodologia) {
+                    prompt += `\n\nPara ello, aplica la metodología de ${metodologia}.`;
+                }
+
+                if (detalles) {
+                    prompt += `\n\nConsidera los siguientes detalles específicos: ${detalles}.`;
+                }
+
+                if (estructura) {
+                    prompt += `\n\nEl resultado debe seguir la siguiente estructura: ${estructura}.`;
+                }
+
+                if (adjuntarDocumento === 'si') {
+                    if (tipoDocumento) {
+                         prompt += `\n\nImportante: Ten en cuenta el/los siguiente(s) documento(s) adjunto(s) (${tipoDocumento}) para realizar esta tarea.`;
+                    } else {
+                        prompt += `\n\nImportante: Ten en cuenta el documento adjunto para realizar esta tarea.`;
+                    }
+                }
+                
+                output.value = prompt;
+                output.classList.add('fade-in');
+                setTimeout(() => output.classList.remove('fade-in'), 500);
+            });
+
+            copyButton.addEventListener('click', () => {
+                if (output.value) {
+                    // Using document.execCommand for broader compatibility within iframes
+                    output.select();
+                    output.setSelectionRange(0, 99999); // For mobile devices
+                    try {
+                        document.execCommand('copy');
+                        copyFeedback.classList.remove('opacity-0');
+                        setTimeout(() => {
+                            copyFeedback.classList.add('opacity-0');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Fallback: Oops, unable to copy', err);
+                    }
+                    window.getSelection().removeAllRanges();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
